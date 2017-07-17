@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - 7
+cache:
+  yarn: true
+  directories:
+    - node_modules
+install:
+  - yarn install
+
+jobs:
+  include:
+    - stage: lint
+      script:
+        - yarn run lint
+    - stage: publish
+      deploy:
+        provider: npm
+        email: xyan.sk@gmail.com
+        api_key: $NPM_API_KEY
+        skip_cleanup: true
+        on:
+          tags: true

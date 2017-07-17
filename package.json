@@ -1,0 +1,36 @@
+{
+  "name": "ali-oss-publish",
+  "version": "0.1.0",
+  "description": "A cli interface of publish resource to ali-oss",
+  "repository": "https://github.com/skordyr/ali-oss-publish.git",
+  "author": "skordyr <xyan.sk@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.5.0"
+  },
+  "main": "./lib/index.js",
+  "bin": {
+    "ali-oss-publish": "./bin/ali-oss-publish.js"
+  },
+  "files": [
+    "*.md",
+    "bin",
+    "lib"
+  ],
+  "scripts": {
+    "lint": "eslint bin lib"
+  },
+  "dependencies": {
+    "ali-oss": "^4.8.0",
+    "co": "^4.6.0",
+    "commander": "^2.11.0",
+    "debug": "^2.6.8"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "class-methods-use-this": "off",
+    "no-plusplus": "off",
+    "no-shadow": "off",
+    "no-underscore-dangle": "off",
+    "comma-dangle": ["error", "never"],
+    "semi": ["error", "never"]
+  }
+}
