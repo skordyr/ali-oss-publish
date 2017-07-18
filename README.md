@@ -19,9 +19,9 @@ yarn add ali-oss-publish
 
 ## Usage
 
-### APi
+### API
 
-#### publish(options: object, progresser: function)
+#### publish(options: Object, progresser: Function)
 publish resource to ali oss
 ```js
 publish({
@@ -56,7 +56,7 @@ publish({
     // handle fatal error
   }
 
-  console.info(stats.message)
+  console.info('[%s/%s]: %s', stats.current, stats.total, stats.message)
 
   if (stats.hasError()) {
     console.error(stats.error) // handle error
@@ -89,6 +89,8 @@ parameters:
 * progresser(err: Error, stats: Stats) {Function} progresser function
   * err {Error} fatal error
   * stats {Stats} stats object
+    * current {Number} current task
+    * total {Number} total task
     * message {String} progress message
     * warning {String} warning message
     * error {String} error message
@@ -120,8 +122,11 @@ ali-oss-publish [options]
 |:------------------------|:--------|
 | ALI_OSS_PUBLISH_CONFIG  | config  |
 | ALI_OSS_PUBLISH_ID      | id      |
+| ALI_OSS_PUBLISH_SECRET  | secret  |
 | ALI_OSS_PUBLISH_BUCKET  | bucket  |
 | ALI_OSS_PUBLISH_REGION  | region  |
+| ALI_OSS_PUBLISH_ENTRY   | entry   |
+| ALI_OSS_PUBLISH_PATH    | path    |
 | ALI_OSS_PUBLISH_META    | meta    |
 | ALI_OSS_PUBLISH_HEADERS | headers |
 
