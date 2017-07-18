@@ -6,7 +6,7 @@
   "author": "skordyr <xyan.sk@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=6.5.0"
+    "node": ">=7.6.0"
   },
   "main": "./lib/index.js",
   "bin": {

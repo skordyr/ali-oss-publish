@@ -14,7 +14,7 @@ jobs:
       script:
         - yarn run lint
     - stage: publish
-      script: skip
+      script: node ./bin/ali-oss-publish.js --help
       deploy:
         provider: npm
         email: xyan.sk@gmail.com
