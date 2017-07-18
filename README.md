@@ -103,19 +103,19 @@ parameters:
 ali-oss-publish [options]
 ```
 #### Options
-| Options                    | Default                   | Description                                                    |
-|:---------------------------|:--------------------------|:---------------------------------------------------------------|
-| -V, --version              |                           | output the version number                                      |
-| -c, --config \<config\>    | ali-oss-publish.config.js | path to the config file, default to ali-oss-publish.config.js  |
-| -i, --id \<id\>            |                           | ali oss access key id config                                   |
-| -s, --secret \<secret\>    |                           | ali oss access key secret config                               |
-| -b, --bucket \<bucket\>    |                           | ali oss bucket config                                          |
-| -r, --region \<region\>    |                           | ali oss region config                                          |
-| -e, --entry \<entry\>      |                           | local resource path                                            |
-| -p, --path \<path\>        |                           | ali oss publish path                                           |
-| -m, --meta \<meta\>        |                           | upload file custom meta data (json string)                     |
-| -h, --headers \<headers\>  |                           | upload file custom headers data (json string)                  |
-| -h, --help                 |                           | output usage information                                       |
+| Options                    | Default                   | Description                                                                |
+|:---------------------------|:--------------------------|:---------------------------------------------------------------------------|
+| -V, --version              |                           | output the version number                                                  |
+| -c, --config \<config\>    | ali-oss-publish.config.js | path to the config file, default to ali-oss-publish.config.js              |
+| -i, --id \<id\>            |                           | access key you create on aliyun console website                            |
+| -s, --secret \<secret\>    |                           | access secret you create on aliyun console website                         |
+| -b, --bucket \<bucket\>    |                           | the bucket you want to access                                              |
+| -r, --region \<region\>    |                           | the bucket data region location                                            |
+| -e, --entry \<entry\>      |                           | the entry of publish resource                                              |
+| -p, --path \<path\>        |                           | the path to publish on aliyun                                              |
+| -M, --meta \<meta\>        |                           | global user meta, will send with "x-oss-meta-" prefix string (JSON string) |
+| -H, --headers \<headers\>  |                           | global extra headers (JSON string)                                         |
+| -h, --help                 |                           | output usage information                                                   |
 
 ### ENV Options
 | ENV                     | Option  |
