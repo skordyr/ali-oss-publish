@@ -1,3 +1,9 @@
+# v0.1.3
+2017-10-10
+
+* [FIX] lint error with eslint-config-airbnb@16
+* [UPDATE] update dependencies
+
 # v0.1.2
 2017-07-18
 
