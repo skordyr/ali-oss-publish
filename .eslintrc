@@ -1,14 +1,13 @@
 {
-  "extends": "airbnb",
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   },
   "rules": {
-    "class-methods-use-this": "off",
-    "no-plusplus": "off",
-    "no-shadow": "off",
-    "no-underscore-dangle": "off",
-    "comma-dangle": ["error", "never"],
     "semi": ["error", "never"]
   }
 }

@@ -1,3 +1,9 @@
+# v0.2.0
+2018-08-13
+
+* [CHANGE] refactory the core
+* [CHANGE] update engines from ">=7.6.0" to ">=8"
+
 # v0.1.3
 2017-10-10
 
