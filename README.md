@@ -5,166 +5,177 @@
 [![badge:issues]][issues]
 [![badge:license]][license]
 
-A cli interface of publish resource to [ali-oss][github:ali-oss]
+a cli interface of publish resources to [ali-oss][github:ali-oss]
 
 ## Installation
-To install the stable version:
-```bash
-npm install ali-oss-publish --save
-```
-or
+
 ```bash
 yarn add ali-oss-publish
 ```
 
-## Usage
+## Api
 
-### API
+### publish: function(options: object[, cb: function(err: Error, stats: Stats)]): Promise
 
-#### publish(options: Object, progresser: Function)
-publish resource to ali oss
+* `options: object`: publish options
+  * `options.id: string`: accessKeyId in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
+  * `options.secret: string`: accessKeySecret in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
+  * `options.region: string,`: region in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
+  * `options.bucket: string,`: bucket in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
+  * `options.entry = '.': string`: entry point, defaults to "."
+  * `options.include: ?RegExp`: match files will publish to ali oss
+  * `options.exclude: ?RegExp`: match files will ignore to publish to ali oss
+  * `options.mime: ?(string|function(path: string): string)`: custom mime to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.meta: ?(object|function(path: string): object)`: custom meta to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.headers: ?(object|function(path: string): object)`: custom headers to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.rules = []: Array<object>`: custom operations options for the match files, defaults to []
+    * `options.rules[].test: any`: match files or the test is truthy value will apply custom operations
+    * `options.rules[].include: ?RegExp`: match files will apply custom operations
+    * `options.rules[].exclude: ?RegExp`: match files will ignore to apply custom operations
+    * `options.rules[].use: ?object`: custom operations
+      * `options.rules[].use.mime: ?(string|function(path: string): string)`: custom mime to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+      * `options.rules[].use.meta: ?(object|function(path: string): object)`: custom meta to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+      * `options.rules[].use.headers: ?(object|function(path: string): object)`: custom headers to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.output = '.': string`: output path for publish to ali oss, defaults to "."
+  * `options.force: boolean`: force remove the files that not in the publish entry
+  * `options.config: string`: path to the config file, defaults to try load config from "ali-oss-publish.config.js" when config is not set
+  * `options.retry: ?number`: retry times when encountered non-fatal errors
+  * `options.concurrency: ?number`: concurrency for publish
+* `cb = noop: function(err: Error[, stats: Stats])`: callback function, defaults to noop
+  * `err: Error`: fatal error
+  * `stats: Stats`: publish stats
+    * `stats.message: string`: message for stats
+    * `stats.type: ?string`: type for stats
+    * `stats.index: ?number`: concurrency index
+    * `stats.current: ?number`: current step
+    * `stats.total: ?number`: total step
+    * `stats.warnings: ?Array<string>`: warnings for stats
+    * `stats.errors: ?Array<Error>`: errors for stats
+    * `stats.hasProgress: function(): boolean`: ensure whether has progress
+    * `stats.hasWarnings: function(): boolean`: ensure whether has warnings
+    * `stats.hasErrors: function(): boolean`: ensure whether has errors
+* **Returns** `Promise`: promise
+
 ```js
+const publish = require('ali-oss-publish')
+
 publish({
-  config: 'path-to-file-options' // default value: ali-oss-publish.config.js
-  id: 'accessKeyId', // ali-oss accessKeyId
-  secret: 'accessKeySecret', // ali-oss accessKeySecret
-  bucket: 'bucket', // ali-oss bucket
-  region: 'region', // ali-oss region
-  // user meta
-  meta: {
-    'ref': 'custom-ref'
+  id: 'accessKeyId-in-ali-oss-options',
+  secret: 'accessKeySecret-in-ali-oss-options',
+  region: 'region-in-ali-oss-options',
+  bucket: 'bucket-in-ali-oss-options',
+  entry: '/path/to/publish/files', // defaults to '.'
+  include: /bin|cli|lib|index\.js$|\.md$/,
+  exclude: /.DS_Store$/,
+  mime: (filename) => {
+    if (/\.md$/.test(filename)) {
+      return 'text/markdown'
+    }
+
+    return undefined
   },
-  // extra headers
+  meta: {
+    ref: Date.now()
+  },
   headers: {
     'Cache-Control': 'max-age=30672000'
   },
   rules: [{
-    test: /index\.js$/, // test with upload file path
-    // apply mime, meta and headers to match files
+    test: /(index\.html|service-worker\.js)$/,
     use: {
-      mime: 'text/javascript'
-      meta: {
-        entry: true
-      },
       headers: {
-        'Cache-control': 'no-cache'
+        'Cache-Control': 'no-cache'
       }
     }
-  }]
+  }],
+  output: '/path/to/ali-oss/to/publish',
+  config: '/path/to/config/file.js', // defaults to try load config from 'ali-oss-publish.config.js' when config is not set
+  retry: 1,
+  concurrency: 4,
+  force: true
 }, (err, stats) => {
   if (err) {
-    // handle fatal error
+    console.error('ali-oss-publish encountered a fatal error.')
+    console.error(err)
+
+    process.exit(1)
   }
 
-  console.info('[%s/%s]: %s', stats.current, stats.total, stats.message)
+  if (stats.hasProgress()) {
+    const {
+      type,
+      index,
+      current,
+      total,
+      message
+    } = stats
 
-  if (stats.hasError()) {
-    console.error(stats.error) // handle error
+    console.log('[%s] [%s/%s] #%s: %s', type, current, total, index, message)
+  } else {
+    console.log(stats.message)
   }
 
-  if (stats.hasWarning()) {
-    console.warn(stats.warning) // handle warning
+  if (stats.hasWarnings()) {
+    console.warn('ali-oss-publish encountered some warnings.')
+    stats.warnings.forEach((x) => {
+      console.warn(x)
+    })
   }
 
-  if (stats.isCompleted()) {
-    // handle completed
+  if (stats.hasErrors()) {
+    console.error('ali-oss-publish encountered some errors.')
+    stats.errors.forEach((x) => {
+      console.error(x)
+    })
   }
 })
 ```
-parameters:
-* options {Object} publish options
-  * config {String} path to file options, default to "ali-oss-publish.config.js"
-  * id {String} ali-oss accessKeyId access key you create on aliyun console website see: [ossoptions][github:ali-oss#oss-options]
-  * secret {String} ali-oss accessKeySecret access secret you create on aliyun console website see: [ossoptions][github:ali-oss#oss-options]
-  * bucket {String} ali-oss bucket bucket you want to access see: [ossoptions][github:ali-oss#oss-options]
-  * region {String} ali-oss region the bucket data region location see: [Data Regions][github:ali-oss#data-regions]
-  * meta {Object} user meta, will send with x-oss-meta- prefix string
-  * headers {Object} extra headers
-  * rules {Array\<Object\>} match rule
-    * test {RegExp} match regular expression
-    * use {Object} apply rule
-      * mime {String} custom mime
-      * meta {Object} user meta, will send with x-oss-meta- prefix string
-      * headers {Object} extra headers
-* progresser(err: Error, stats: Stats) {Function} progresser function
-  * err {Error} fatal error
-  * stats {Stats} stats object
-    * current {Number} current task
-    * total {Number} total task
-    * message {String} progress message
-    * warning {String} warning message
-    * error {String} error message
-    * hasWarning() {Function} test if has warning message
-    * hasError() {Function} test if has error message
-    * isCompleted() {Function} test if completed
 
-### CLI
-```bash
-ali-oss-publish [options]
+## Cli
+
 ```
-#### Options
-| Options                    | Default                   | Description                                                                |
-|:---------------------------|:--------------------------|:---------------------------------------------------------------------------|
-| -V, --version              |                           | output the version number                                                  |
-| -c, --config \<config\>    | ali-oss-publish.config.js | path to the config file, default to ali-oss-publish.config.js              |
-| -i, --id \<id\>            |                           | access key you create on aliyun console website                            |
-| -s, --secret \<secret\>    |                           | access secret you create on aliyun console website                         |
-| -b, --bucket \<bucket\>    |                           | the bucket you want to access                                              |
-| -r, --region \<region\>    |                           | the bucket data region location                                            |
-| -e, --entry \<entry\>      |                           | the entry of publish resource                                              |
-| -p, --path \<path\>        |                           | the path to publish on aliyun                                              |
-| -M, --meta \<meta\>        |                           | global user meta, will send with "x-oss-meta-" prefix string (JSON string) |
-| -H, --headers \<headers\>  |                           | global extra headers (JSON string)                                         |
-| -h, --help                 |                           | output usage information                                                   |
+  Usage: ali-oss-publish [options]
 
-### ENV Options
-| ENV                     | Option  |
-|:------------------------|:--------|
-| ALI_OSS_PUBLISH_CONFIG  | config  |
-| ALI_OSS_PUBLISH_ID      | id      |
-| ALI_OSS_PUBLISH_SECRET  | secret  |
-| ALI_OSS_PUBLISH_BUCKET  | bucket  |
-| ALI_OSS_PUBLISH_REGION  | region  |
-| ALI_OSS_PUBLISH_ENTRY   | entry   |
-| ALI_OSS_PUBLISH_PATH    | path    |
-| ALI_OSS_PUBLISH_META    | meta    |
-| ALI_OSS_PUBLISH_HEADERS | headers |
+  a cli interface of publish resources to ali oss
 
-### File Options
-if provide config option, it will load file options from it, and will throw error when file is not exists.
-if not provide config option, it will try to load file from ali-oss-publish.config.js, and will ignore error when file is not exists.
+  Options:
+
+    -V, --version                output the version number
+    -i, --id <id>                accessKeyId in ali oss
+    -s, --secret <secret>        accessKeySecret in ali oss
+    -r, --region <region>        region in ali oss
+    -b, --bucket <bucket>        bucket in ali oss
+    -e, --entry <entry>          entry point, defaults to "."
+    -o, --output <output>        output path for publish to ali oss, defaults to "."
+    -c, --config <config>        path to the config file, defaults to try load config from "ali-oss-publish.config.js" when config is not set
+    --retry <retry>              retry times when encountered non-fatal errors
+    --concurrency <concurrency>  concurrency for publish
+    --force                      force remove the files that not in the publish entry
+    -h, --help                   output usage information
+```
+
+## Environment
+
+ Env Name               | Config Name
+------------------------|-------------
+ ALI_OSS_PUBLISH_ID     | id
+ ALI_OSS_PUBLISH_SECRET | secret
+ ALI_OSS_PUBLISH_REGION | regin
+ ALI_OSS_PUBLISH_BUCKET | bucket
+ ALI_OSS_PUBLISH_ENTRY  | entry
+ ALI_OSS_PUBLISH_OUTPUT | output
+
+## Config File
+
 ```js
 module.exports = {
-  id: 'accessKeyId', // ali-oss accessKeyId
-  secret: 'accessKeySecret', // ali-oss accessKeySecret
-  bucket: 'bucket', // ali-oss bucket
-  region: 'region', // ali-oss region
-  // global user meta
-  meta: {
-    'ref': 'custom-ref'
-  },
-  // global extra headers
-  headers: {
-    'Cache-Control': 'max-age=30672000'
-  },
-  rules: [{
-    test: /index\.js$/, // test with upload file path
-    // apply mime, meta and headers to match files
-    use: {
-      mime: 'text/javascript'
-      meta: {
-        entry: true
-      },
-      headers: {
-        'Cache-control': 'no-cache'
-      }
-    }
-  }]
+  // publish options
 }
 ```
 
-### Options Order
-envOptions < fileOptions < paramOptions
+## Options Override
+
+EnvOptions < FileOptions < ParamsOptions
 
 [badge:issues]: https://img.shields.io/github/issues/skordyr/ali-oss-publish.svg "Issues"
 [badge:license]: https://img.shields.io/badge/license-MIT-blue.svg "License"
@@ -178,5 +189,5 @@ envOptions < fileOptions < paramOptions
 [npm-ali-oss-publish]: https://www.npmjs.com/package/ali-oss-publish "ali-oss-publish"
 
 [github:ali-oss]: https://github.com/ali-sdk/ali-oss "aliyun OSS(open storage service) nodejs client"
-[github:ali-oss#oss-options]: https://github.com/ali-sdk/ali-oss#ossoptions "OSS Options"
-[github:ali-oss#data-regions]: https://github.com/ali-sdk/ali-oss#data-regions "Data Regions"
+[github:ali-oss#oss-options]: https://github.com/ali-sdk/ali-oss#ossoptions "Ali OSS Options"
+[github:ali-oss#put-file-options]: https://github.com/ali-sdk/ali-oss#putname-file-options "Ali OSS Put File Options"
