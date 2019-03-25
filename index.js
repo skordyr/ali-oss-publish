@@ -16,7 +16,7 @@ const Stats = require('./lib/Stats')
 const mapper = {
   ALI_OSS_PUBLISH_ID: 'id',
   ALI_OSS_PUBLISH_SECRET: 'secret',
-  ALI_OSS_PUBLISH_REGION: 'regin',
+  ALI_OSS_PUBLISH_REGION: 'region',
   ALI_OSS_PUBLISH_BUCKET: 'bucket',
   ALI_OSS_PUBLISH_ENTRY: 'entry',
   ALI_OSS_PUBLISH_OUTPUT: 'output'
