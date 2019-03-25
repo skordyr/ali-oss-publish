@@ -1,3 +1,9 @@
+# v0.2.1
+2019-03-25
+
+* [FIX] "region" typo issue
+* [UPDATE] update dependencies
+
 # v0.2.0
 2018-08-13
 
