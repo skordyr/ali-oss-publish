@@ -25,17 +25,17 @@ yarn add ali-oss-publish
   * `options.entry = '.': string`: entry point, defaults to "."
   * `options.include: ?RegExp`: match files will publish to ali oss
   * `options.exclude: ?RegExp`: match files will ignore to publish to ali oss
-  * `options.mime: ?(string|function(path: string): string)`: custom mime to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
-  * `options.meta: ?(object|function(path: string): object)`: custom meta to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
-  * `options.headers: ?(object|function(path: string): object)`: custom headers to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.mime: ?(string|function(path: string): string|void)`: custom mime to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.meta: ?(object|function(path: string): object|void)`: custom meta to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+  * `options.headers: ?(object|function(path: string): object|void)`: custom headers to all files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
   * `options.rules = []: Array<object>`: custom operations options for the match files, defaults to []
-    * `options.rules[].test: any`: match files or the test is truthy value will apply custom operations
+    * `options.rules[].test: ?RegExp|boolean`: match files or the test is true will apply custom operations
     * `options.rules[].include: ?RegExp`: match files will apply custom operations
     * `options.rules[].exclude: ?RegExp`: match files will ignore to apply custom operations
     * `options.rules[].use: ?object`: custom operations
-      * `options.rules[].use.mime: ?(string|function(path: string): string)`: custom mime to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
-      * `options.rules[].use.meta: ?(object|function(path: string): object)`: custom meta to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
-      * `options.rules[].use.headers: ?(object|function(path: string): object)`: custom headers to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+      * `options.rules[].use.mime: ?(string|function(path: string): string|void)`: custom mime to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+      * `options.rules[].use.meta: ?(object|function(path: string): object|void)`: custom meta to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
+      * `options.rules[].use.headers: ?(object|function(path: string): object|void)`: custom headers to the match files, see [ali-oss-put-file-options][github:ali-oss#put-file-options]
   * `options.output = '.': string`: output path for publish to ali oss, defaults to "."
   * `options.force: boolean`: force remove the files that not in the publish entry
   * `options.config: string`: path to the config file, defaults to try load config from "ali-oss-publish.config.js" when config is not set
