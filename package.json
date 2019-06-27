@@ -6,11 +6,13 @@
   "author": "skordyr <xyan.sk@gmail.com>",
   "license": "MIT",
   "main": "index.js",
+  "types": "index.d.ts",
   "bin": {
     "ali-oss-publish": "bin/ali-oss-publish.js"
   },
   "files": [
     "*.md",
+    "index.d.ts",
     "index.js",
     "bin",
     "cli",
@@ -21,12 +23,12 @@
     "ali-oss-publish": "node bin/ali-oss-publish.js"
   },
   "dependencies": {
-    "ali-oss": "^6.1.0",
+    "ali-oss": "^6.1.1",
     "chalk": "^2.4.2",
-    "commander": "^2.19.0"
+    "commander": "^2.20.0"
   },
   "devDependencies": {
-    "eslint": "^5.15.3"
+    "eslint": "^6.0.1"
   },
   "engines": {
     "node": ">=8"
