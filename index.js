@@ -281,7 +281,7 @@ function publish(options = {}, cb = noop) {
                   name
                 } = x
 
-                if (uploadFilesStats.every((x) => x.name !== name)) {
+                if (uploadFilesStats.every((x) => x.name !== name && output.substring(2) && x.name.indexOf(output.substring(2))==-1)) {
                   const task = new Task((x) => {
                     const {
                       name
