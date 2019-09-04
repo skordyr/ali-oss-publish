@@ -25,10 +25,12 @@
   "dependencies": {
     "ali-oss": "^6.1.1",
     "chalk": "^2.4.2",
-    "commander": "^2.20.0"
+    "commander": "^3.0.1"
   },
   "devDependencies": {
-    "eslint": "^6.0.1"
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
   },
   "engines": {
     "node": ">=8"
