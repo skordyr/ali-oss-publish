@@ -290,7 +290,7 @@ function publish(options = {}, cb = noop) {
                   name,
                 } = x;
 
-                if (name.indexOf(prefix) === 0 && uploadFilesStats.every((x) => x.name !== name)) {
+                if ((prefix === '' || name.indexOf(`${prefix}/`) === 0) && uploadFilesStats.every((x) => x.name !== name)) {
                   const task = new Task((x) => {
                     const {
                       name,
