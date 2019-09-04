@@ -79,13 +79,23 @@ function resolveRule(options = {}) {
 
 /**
  * @param {string} output
+ * @returns {string}
+ */
+function resolveOutput(output) {
+  return join(output, '.')
+    .replace(/^[./\\]+/, '');
+}
+
+/**
+ * @param {string} output
  * @param {string} entry
  * @param {string} path
  * @returns {string}
  */
 function resolveName(output, entry, path) {
   return join(output, relative(entry, path))
-    .replace(/\\+/g, '/');
+    .replace(/\\+/g, '/')
+    .replace(/^\//, '');
 }
 
 /**
@@ -274,12 +284,13 @@ function publish(options = {}, cb = noop) {
           return runner
             .run()
             .then(() => {
+              const prefix = resolveOutput(output);
               const removeTasks = remoteFilesStats.reduce((result, x) => {
                 const {
                   name,
                 } = x;
 
-                if (uploadFilesStats.every((x) => x.name !== name)) {
+                if (name.indexOf(prefix) === 0 && uploadFilesStats.every((x) => x.name !== name)) {
                   const task = new Task((x) => {
                     const {
                       name,
