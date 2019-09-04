@@ -1,3 +1,9 @@
+# v0.3.0
+2019-09-04
+
+* [CHANGE] force flag remove remote filies only remove the file under the output path
+* [UPDATE] update dependencies
+
 # v0.2.2
 2019-06-27
 
