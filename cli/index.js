@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 
-const chalk = require('chalk')
-const commander = require('commander')
+const chalk = require('chalk');
+const commander = require('commander');
 
-const publish = require('..')
+const publish = require('..');
 
 const {
   version,
-  description
-} = require('../package.json')
+  description,
+} = require('../package.json');
 
-const divider = '------------------------'
+const divider = '------------------------';
 
 commander
   .version(version)
@@ -25,7 +25,7 @@ commander
   .option('--retry <retry>', 'retry times when encountered non-fatal errors', Number)
   .option('--concurrency <concurrency>', 'concurrency for publish', Number)
   .option('--force', 'force remove the files that not in the publish entry')
-  .parse(process.argv)
+  .parse(process.argv);
 
 const {
   id,
@@ -37,8 +37,8 @@ const {
   config,
   retry,
   concurrency,
-  force
-} = commander
+  force,
+} = commander;
 
 const options = {
   id,
@@ -50,15 +50,15 @@ const options = {
   config,
   retry,
   concurrency,
-  force
-}
+  force,
+};
 
 publish(options, (err, stats) => {
   if (err) {
-    console.error(chalk.red('ali-oss-publish encountered a fatal error.'))
-    console.error(chalk.red(err.stack))
+    console.error(chalk.red('ali-oss-publish encountered a fatal error.'));
+    console.error(chalk.red(err.stack));
 
-    process.exit(1)
+    process.exit(1);
   }
 
   if (stats.hasProgress()) {
@@ -67,33 +67,33 @@ publish(options, (err, stats) => {
       index,
       current,
       total,
-      message
-    } = stats
+      message,
+    } = stats;
 
     if (current === 1) {
-      console.log(divider)
+      console.log(divider);
     }
 
-    console.log(chalk.green('[%s] [%s/%s] [#%s]: %s'), type, current, total, index, message)
+    console.log(chalk.green('[%s] [%s/%s] [#%s]: %s'), type, current, total, index, message);
 
     if (current === total) {
-      console.log(divider)
+      console.log(divider);
     }
   } else {
-    console.log(stats.message)
+    console.log(stats.message);
   }
 
   if (stats.hasWarnings()) {
-    console.warn(chalk.yellow('ali-oss-publish encountered some warnings.'))
+    console.warn(chalk.yellow('ali-oss-publish encountered some warnings.'));
     stats.warnings.forEach((x) => {
-      console.warn(chalk.yellow(x))
-    })
+      console.warn(chalk.yellow(x));
+    });
   }
 
   if (stats.hasErrors()) {
-    console.error(chalk.red('ali-oss-publish encountered some errors.'))
+    console.error(chalk.red('ali-oss-publish encountered some errors.'));
     stats.errors.forEach((x) => {
-      console.error(chalk.red(x.stack))
-    })
+      console.error(chalk.red(x.stack));
+    });
   }
-})
+});
