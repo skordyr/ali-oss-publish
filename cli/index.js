@@ -17,6 +17,7 @@ commander
   .description(description)
   .option('-i, --id <id>', 'accessKeyId in ali oss')
   .option('-s, --secret <secret>', 'accessKeySecret in ali oss')
+  .option('-t, --token <token>', 'stsToken in ali oss')
   .option('-r, --region <region>', 'region in ali oss')
   .option('-b, --bucket <bucket>', 'bucket in ali oss')
   .option('-e, --entry <entry>', 'entry point, defaults to "."')
@@ -30,6 +31,7 @@ commander
 const {
   id,
   secret,
+  token,
   region,
   bucket,
   entry,
@@ -43,6 +45,7 @@ const {
 const options = {
   id,
   secret,
+  token,
   region,
   bucket,
   entry,
