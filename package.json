@@ -1,6 +1,6 @@
 {
   "name": "ali-oss-publish",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "a cli interface of publish resources to ali oss",
   "repository": "https://github.com/skordyr/ali-oss-publish.git",
   "author": "skordyr <xyan.sk@gmail.com>",
