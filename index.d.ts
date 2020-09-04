@@ -125,6 +125,10 @@ interface IPublishOptions extends IOperations {
    */
   secret?: string
   /**
+   * stsToken in ali oss
+   */
+  token?: string
+  /**
    * region in ali oss
    */
   region?: string

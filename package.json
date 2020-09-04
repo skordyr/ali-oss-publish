@@ -23,14 +23,14 @@
     "ali-oss-publish": "node bin/ali-oss-publish.js"
   },
   "dependencies": {
-    "ali-oss": "^6.1.1",
-    "chalk": "^2.4.2",
-    "commander": "^3.0.1"
+    "ali-oss": "^6.10.0",
+    "chalk": "^4.1.0",
+    "commander": "^6.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.3.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
   },
   "engines": {
     "node": ">=8"

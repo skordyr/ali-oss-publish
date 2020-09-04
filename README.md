@@ -20,6 +20,7 @@ yarn add ali-oss-publish
 * `options: object`: publish options
   * `options.id: string`: accessKeyId in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
   * `options.secret: string`: accessKeySecret in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
+  * `options.token: string`: stsToken in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
   * `options.region: string,`: region in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
   * `options.bucket: string,`: bucket in ali oss, see [ali-oss-options][github:ali-oss#oss-options]
   * `options.entry = '.': string`: entry point, defaults to "."
@@ -62,6 +63,7 @@ const publish = require('ali-oss-publish')
 publish({
   id: 'accessKeyId-in-ali-oss-options',
   secret: 'accessKeySecret-in-ali-oss-options',
+  token: 'stsToken-in-ali-oss-options',
   region: 'region-in-ali-oss-options',
   bucket: 'bucket-in-ali-oss-options',
   entry: '/path/to/publish/files', // defaults to '.'
@@ -139,10 +141,10 @@ publish({
   a cli interface of publish resources to ali oss
 
   Options:
-
     -V, --version                output the version number
     -i, --id <id>                accessKeyId in ali oss
     -s, --secret <secret>        accessKeySecret in ali oss
+    -t, --token <token>          stsToken in ali oss
     -r, --region <region>        region in ali oss
     -b, --bucket <bucket>        bucket in ali oss
     -e, --entry <entry>          entry point, defaults to "."
@@ -151,7 +153,7 @@ publish({
     --retry <retry>              retry times when encountered non-fatal errors
     --concurrency <concurrency>  concurrency for publish
     --force                      force remove the files that not in the publish entry
-    -h, --help                   output usage information
+    -h, --help                   display help for command
 ```
 
 ## Environment
@@ -160,6 +162,7 @@ publish({
 ------------------------|-------------
  ALI_OSS_PUBLISH_ID     | id
  ALI_OSS_PUBLISH_SECRET | secret
+ ALI_OSS_PUBLISH_TOKEN  | token
  ALI_OSS_PUBLISH_REGION | regin
  ALI_OSS_PUBLISH_BUCKET | bucket
  ALI_OSS_PUBLISH_ENTRY  | entry
