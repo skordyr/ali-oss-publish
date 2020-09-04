@@ -18,6 +18,9 @@
     "cli",
     "lib"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "lint": "eslint .",
     "ali-oss-publish": "node bin/ali-oss-publish.js"
@@ -31,8 +34,5 @@
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0"
-  },
-  "engines": {
-    "node": ">=8"
   }
 }
